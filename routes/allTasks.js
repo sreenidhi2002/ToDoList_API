@@ -97,22 +97,13 @@ module.exports = function (router) {
                                 return serverResponse.status(500).send({message:"Unable to find assigned user and remove task - task update failed", data: task});
                             });
                         } else {
-							var already_present = false;
-							for (var i = 0; i < request.body.assignedUser.pendingTasks.length; i++) {
-								if (request.body.assignedUser.pendingTasks[i] == result._id) {
-									already_present = true;
-								}
-							}
-
-							if (already_present == false) {
-								userList.findByIdAndUpdate(request.body.assignedUser, {$push: {pendingTasks: result._id}})
-								.then(() => {
-									return serverResponse.status(200).send({message:"Task updated and added to user's pending tasks", data: task});
-								})
-								.catch((err) => {
-									return serverResponse.status(500).send({message:"Unable to find assigned user and add task - task updated", data: task});
-								});
-							}
+                            userList.findByIdAndUpdate(request.body.assignedUser, {$push: {pendingTasks: result._id}})
+                            .then(() => {
+                                return serverResponse.status(200).send({message:"Task updated and added to user's pending tasks", data: task});
+                            })
+                            .catch((err) => {
+                                return serverResponse.status(500).send({message:"Unable to find assigned user and add task - task updated", data: task});
+                            });
 
                         }
                     } else {
